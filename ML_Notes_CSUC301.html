@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Machine Learning Notes — CSUC301 | Sem 5</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap');
+
+  :root {
+    --bg:        #0d1117;
+    --surface:   #0b0f19;
+    --card:      #111827;
+    --card2:     #161f2e;
+    --border:    #1e2d40;
+    --cyan:      #00f5d4;
+    --green:     #39ff14;
+    --amber:     #f59e0b;
+    --red:       #f87171;
+    --purple:    #a78bfa;
+    --blue:      #60a5fa;
+    --text:      #e2e8f0;
+    --muted:     #64748b;
+    --heading:   #f8fafc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+  .logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--cyan);
+    letter-spacing: 0.05em;
+  }
+  .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 60px 2rem 50px;
+    max-width: 900px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--cyan); }
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(28px, 5vw, 46px);
+    font-weight: 700;
+    color: var(--heading);
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+  .hero h1 span { color: var(--cyan); }
+  .hero p {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 560px;
+    margin-bottom: 24px;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .meta-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 5px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .meta-chip.highlight { border-color: var(--cyan); color: var(--cyan); }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 2rem 80px; }
+
+  /* ── TOC ── */
+  .toc {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--cyan);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin: 36px 0;
+  }
+  .toc-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .toc ol { padding-left: 20px; }
+  .toc li { margin: 6px 0; }
+  .toc a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: var(--cyan); }
+  .toc-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: 4px;
+  }
+
+  /* ── UNIT SECTION ── */
+  .unit {
+    margin-top: 56px;
+    scroll-margin-top: 70px;
+  }
+  .unit-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .unit-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--bg);
+    background: var(--cyan);
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+  .unit-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--heading);
+    line-height: 1.3;
+  }
+  .unit-hours {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--amber);
+    margin-top: 6px;
+  }
+
+  /* ── TOPIC CARDS ── */
+  .topic {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px 26px;
+    margin-bottom: 20px;
+  }
+  .topic-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--cyan);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .topic-title::before {
+    content: '▸';
+    color: var(--green);
+    font-size: 12px;
+  }
+
+  /* ── NOTE CONTENT ── */
+  .note-block { margin-bottom: 18px; }
+  .note-block h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--purple);
+    margin-bottom: 8px;
+    padding-left: 10px;
+    border-left: 2px solid var(--purple);
+  }
+  .note-block p { color: var(--text); font-size: 14px; line-height: 1.75; margin-bottom: 8px; }
+  .note-block ul, .note-block ol { padding-left: 20px; }
+  .note-block li { font-size: 14px; margin: 5px 0; color: var(--text); }
+  .note-block li strong { color: var(--cyan); }
+
+  /* ── FORMULA BLOCK ── */
+  .formula {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--green);
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 13.5px;
+    line-height: 1.7;
+  }
+  .callout.info { background: #0f2035; border-left: 3px solid var(--blue); color: #93c5fd; }
+  .callout.warn { background: #1f1400; border-left: 3px solid var(--amber); color: #fcd34d; }
+  .callout.tip  { background: #071a12; border-left: 3px solid var(--green); color: #6ee7b7; }
+  .callout.key  { background: #1a0a2e; border-left: 3px solid var(--purple); color: #c4b5fd; }
+  .callout strong { font-weight: 600; }
+
+  /* ── TABLE ── */
+  .tbl-wrap { overflow-x: auto; margin: 16px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th {
+    background: var(--card2);
+    color: var(--cyan);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(0,245,212,0.03); }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+  footer span { color: var(--cyan); }
+
+  @media(max-width:600px){
+    .hero { padding: 36px 1.2rem 30px; }
+    .container { padding: 0 1.2rem 60px; }
+    header { padding: 0 1.2rem; }
+    .unit-header { flex-direction: column; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">param_shah.exe / sem5 / ML</div>
+  <div class="badge">CSUC301 · 2026-27</div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">CHARUSAT · CSPIT · B.Tech CSE</div>
+  <h1>Machine <span>Learning</span><br>Complete Notes</h1>
+  <p>All 6 units covered in full depth — mathematical foundations, algorithms, evaluation metrics, and responsible AI.</p>
+  <div class="meta-row">
+    <div class="meta-chip highlight">CSUC301</div>
+    <div class="meta-chip">Semester 5</div>
+    <div class="meta-chip">4 Credits · 150 Marks</div>
+    <div class="meta-chip">Theory 3hr + Practical 1hr/week</div>
+    <div class="meta-chip">38 Hours Total</div>
+  </div>
+</div>
+
+<!-- CONTAINER -->
+<div class="container">
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">// table of contents</div>
+    <ol>
+      <li><a href="#u1">Mathematical Foundation</a> <span class="toc-sub">— 6 hrs · Linear Equations, Loss Functions, Gradient Descent, Regularization</span></li>
+      <li><a href="#u2">Supervised Learning</a> <span class="toc-sub">— 8 hrs · Regression, Classification, Evaluation Metrics, Responsible AI</span></li>
+      <li><a href="#u3">Unsupervised Learning</a> <span class="toc-sub">— 7 hrs · Clustering, Dimensionality Reduction, Validation</span></li>
+      <li><a href="#u4">Neural Networks</a> <span class="toc-sub">— 6 hrs · Perceptron, Backpropagation, Regularization, Tuning</span></li>
+      <li><a href="#u5">Deep Learning Foundation</a> <span class="toc-sub">— 6 hrs · CNN, Transfer Learning, RNN, LSTM</span></li>
+      <li><a href="#u6">Reinforcement Learning</a> <span class="toc-sub">— 5 hrs · MDP, Q-Learning, Bellman Equation</span></li>
+    </ol>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       UNIT 1 · MATHEMATICAL FOUNDATION
+  ═══════════════════════════════════════════ -->
+  <section class="unit" id="u1">
+    <div class="unit-header">
+      <div>
+        <div class="unit-num">UNIT 01</div>
+      </div>
+      <div>
+        <div class="unit-title">Mathematical Foundation</div>
+        <div class="unit-hours">⏱ 6 Hours</div>
+      </div>
+    </div>
+
+    <!-- 1.1 System of Linear Equations -->
+    <div class="topic">
+      <div class="topic-title">1.1 System of Linear Equations</div>
+      <div class="note-block">
+        <p>A system of linear equations is a collection of equations of the form <strong>Ax = b</strong> where A is the coefficient matrix, x is the unknown vector, and b is the output vector. In ML, this forms the backbone of linear models.</p>
+        <h4>Forms &amp; Solutions</h4>
+        <ul>
+          <li><strong>Unique Solution:</strong> When rank(A) = rank([A|b]) = n → exactly one solution.</li>
+          <li><strong>Infinite Solutions:</strong> rank(A) = rank([A|b]) &lt; n → underdetermined system.</li>
+          <li><strong>No Solution:</strong> rank(A) ≠ rank([A|b]) → overdetermined / inconsistent.</li>
+        </ul>
+        <div class="formula">
+Ax = b
+A⁻¹Ax = A⁻¹b
+x = A⁻¹b       (only when A is invertible)
+</div>
+        <h4>Key Concepts</h4>
+        <ul>
+          <li><strong>Vector Dot Product:</strong> a · b = Σ aᵢbᵢ — measures similarity/projection.</li>
+          <li><strong>Matrix Multiplication:</strong> (AB)ᵢⱼ = Σₖ Aᵢₖ Bₖⱼ — used in weight updates.</li>
+          <li><strong>Transpose:</strong> (AB)ᵀ = BᵀAᵀ</li>
+          <li><strong>Eigenvalues/Eigenvectors:</strong> Av = λv — used in PCA for dimensionality reduction.</li>
+        </ul>
+        <div class="callout info"><strong>ML Connection:</strong> Normal equation for linear regression: θ = (XᵀX)⁻¹Xᵀy solves the system of equations directly without iteration.</div>
+      </div>
+    </div>
+
+    <!-- 1.2 Convex & Non-Convex -->
+    <div class="topic">
+      <div class="topic-title">1.2 Convex and Non-Convex Functions</div>
+      <div class="note-block">
+        <h4>Convex Function</h4>
+        <p>A function f is convex if for any two points x₁, x₂ and t ∈ [0,1]:</p>
+        <div class="formula">f(tx₁ + (1-t)x₂) ≤ tf(x₁) + (1-t)f(x₂)</div>
+        <ul>
+          <li>Has a single global minimum — gradient descent is guaranteed to find it.</li>
+          <li>Examples: MSE loss, L2 regularization, logistic loss.</li>
+          <li>Second derivative (Hessian) is positive semi-definite: ∇²f ≥ 0.</li>
+        </ul>
+        <h4>Non-Convex Function</h4>
+        <ul>
+          <li>Has multiple local minima and saddle points.</li>
+          <li>Gradient descent may get stuck in local minima.</li>
+          <li>Examples: Neural network loss surfaces, most deep learning objectives.</li>
+        </ul>
+        <div class="callout warn"><strong>Why it matters:</strong> Convex → guaranteed global minimum. Non-convex → need tricks like momentum, learning rate schedules, multiple restarts.</div>
+      </div>
+    </div>
+
+    <!-- 1.3 Loss Functions -->
+    <div class="topic">
+      <div class="topic-title">1.3 Loss Functions and Minimization</div>
+      <div class="note-block">
+        <p>A loss function L(ŷ, y) quantifies how wrong the model's prediction ŷ is compared to the true label y. The goal of training is to minimize the average loss over all training samples.</p>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Loss Function</th><th>Formula</th><th>Use Case</th></tr>
+            <tr><td><strong>Mean Squared Error (MSE)</strong></td><td>L = (1/n)Σ(yᵢ - ŷᵢ)²</td><td>Regression</td></tr>
+            <tr><td><strong>Mean Absolute Error (MAE)</strong></td><td>L = (1/n)Σ|yᵢ - ŷᵢ|</td><td>Regression (robust to outliers)</td></tr>
+            <tr><td><strong>Binary Cross-Entropy</strong></td><td>L = -[y·log(ŷ) + (1-y)·log(1-ŷ)]</td><td>Binary Classification</td></tr>
+            <tr><td><strong>Categorical Cross-Entropy</strong></td><td>L = -Σ yᵢ·log(ŷᵢ)</td><td>Multi-class Classification</td></tr>
+            <tr><td><strong>Hinge Loss</strong></td><td>L = max(0, 1 - y·f(x))</td><td>SVM</td></tr>
+          </table>
+        </div>
+        <div class="callout tip"><strong>Key Insight:</strong> MSE penalizes large errors more (quadratic). MAE treats all errors equally. Cross-entropy is derived from maximum likelihood estimation (MLE).</div>
+      </div>
+    </div>
+
+    <!-- 1.4 Gradient Descent -->
+    <div class="topic">
+      <div class="topic-title">1.4 Gradient and Gradient Descent</div>
+      <div class="note-block">
+        <h4>What is a Gradient?</h4>
+        <p>The gradient ∇f(θ) is a vector of partial derivatives indicating the direction of steepest ascent. To minimize, we move in the opposite direction.</p>
+        <div class="formula">
+∂L/∂θⱼ = (1/n) Σᵢ (ŷᵢ - yᵢ) · xᵢⱼ    [for MSE linear regression]
+</div>
+        <h4>Gradient Descent Variants</h4>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Type</th><th>Update Rule</th><th>Pros</th><th>Cons</th></tr>
+            <tr><td><strong>Batch GD</strong></td><td>θ = θ − α·∇L(θ) over all data</td><td>Stable convergence</td><td>Slow for large datasets</td></tr>
+            <tr><td><strong>Stochastic GD (SGD)</strong></td><td>Update per single sample</td><td>Fast, online learning</td><td>High variance, noisy</td></tr>
+            <tr><td><strong>Mini-Batch GD</strong></td><td>Update per batch (32–256 samples)</td><td>Balance of speed &amp; stability</td><td>Needs batch size tuning</td></tr>
+          </table>
+        </div>
+        <div class="formula">
+θ_new = θ_old − α · ∂L/∂θ
+
+where α = learning rate (hyperparameter)
+</div>
+        <h4>Learning Rate Effects</h4>
+        <ul>
+          <li><strong>Too large α:</strong> Overshoots minimum, diverges.</li>
+          <li><strong>Too small α:</strong> Very slow convergence.</li>
+          <li><strong>Optimal α:</strong> Smooth convergence to minimum.</li>
+        </ul>
+        <div class="callout key"><strong>Exam Tip:</strong> Be able to derive the gradient of MSE loss w.r.t. θ manually. ∂MSE/∂θ = (2/n)Xᵀ(Xθ - y)</div>
+      </div>
+    </div>
+
+    <!-- 1.5 Entropy & Info Gain -->
+    <div class="topic">
+      <div class="topic-title">1.5 Entropy and Information Gain</div>
+      <div class="note-block">
+        <h4>Shannon Entropy</h4>
+        <p>Entropy H(S) measures the impurity/uncertainty in a dataset S. High entropy = more disorder.</p>
+        <div class="formula">
+H(S) = -Σ pᵢ · log₂(pᵢ)
+
+For binary classification (p = fraction of positive class):
+H(S) = -p·log₂(p) - (1-p)·log₂(1-p)
+</div>
+        <h4>Information Gain (IG)</h4>
+        <p>IG measures how much a feature reduces entropy when used to split a dataset. Used in Decision Trees (ID3 algorithm).</p>
+        <div class="formula">
+IG(S, A) = H(S) - Σᵥ (|Sᵥ|/|S|) · H(Sᵥ)
+
+where Sᵥ = subset of S where feature A = v
+</div>
+        <div class="callout info"><strong>Example:</strong> If a dataset has 5 yes and 5 no: H = -(0.5·log₂0.5 + 0.5·log₂0.5) = 1.0 bit (maximum entropy). Pure dataset H = 0.</div>
+        <h4>Gini Impurity (alternative to entropy)</h4>
+        <div class="formula">Gini(S) = 1 - Σ pᵢ²</div>
+        <ul>
+          <li>Computationally faster than entropy (no log).</li>
+          <li>Used by CART algorithm (sklearn's DecisionTreeClassifier default).</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 1.6 Bias-Variance -->
+    <div class="topic">
+      <div class="topic-title">1.6 Bias-Variance Tradeoff</div>
+      <div class="note-block">
+        <div class="formula">
+Total Error = Bias² + Variance + Irreducible Noise
+
+Bias²   = Error from wrong model assumptions (underfitting)
+Variance = Error from sensitivity to training data (overfitting)
+</div>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Scenario</th><th>Bias</th><th>Variance</th><th>Result</th></tr>
+            <tr><td>Simple model (linear)</td><td>High</td><td>Low</td><td>Underfitting</td></tr>
+            <tr><td>Complex model (deep tree)</td><td>Low</td><td>High</td><td>Overfitting</td></tr>
+            <tr><td>Optimal model</td><td>Low</td><td>Low</td><td>Good generalization</td></tr>
+          </table>
+        </div>
+        <h4>Regularization to Control Variance</h4>
+        <ul>
+          <li><strong>L1 (Lasso):</strong> Adds |θ| penalty → sparse model, feature selection. J = L + λΣ|θⱼ|</li>
+          <li><strong>L2 (Ridge):</strong> Adds θ² penalty → shrinks weights, no sparsity. J = L + λΣθⱼ²</li>
+          <li><strong>Elastic Net:</strong> Combines L1 + L2.</li>
+          <li><strong>λ (lambda):</strong> Regularization strength. Higher λ → more regularization → higher bias, lower variance.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 1.7 Activation Functions -->
+    <div class="topic">
+      <div class="topic-title">1.7 Activation Functions: Which, When, and Why</div>
+      <div class="note-block">
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Function</th><th>Formula</th><th>Range</th><th>Use When</th><th>Problem</th></tr>
+            <tr><td><strong>Sigmoid</strong></td><td>σ(x) = 1/(1+e⁻ˣ)</td><td>(0,1)</td><td>Binary output layer</td><td>Vanishing gradient</td></tr>
+            <tr><td><strong>Tanh</strong></td><td>(eˣ-e⁻ˣ)/(eˣ+e⁻ˣ)</td><td>(-1,1)</td><td>Hidden layers (RNN)</td><td>Vanishing gradient</td></tr>
+            <tr><td><strong>ReLU</strong></td><td>max(0, x)</td><td>[0,∞)</td><td>Hidden layers (CNN)</td><td>Dying ReLU</td></tr>
+            <tr><td><strong>Leaky ReLU</strong></td><td>max(0.01x, x)</td><td>(-∞,∞)</td><td>Fix dying ReLU</td><td>—</td></tr>
+            <tr><td><strong>Softmax</strong></td><td>eˣᵢ / Σeˣⱼ</td><td>(0,1), Σ=1</td><td>Multi-class output</td><td>—</td></tr>
+          </table>
+        </div>
+        <div class="callout tip"><strong>Rule of Thumb:</strong> Use ReLU for hidden layers by default. Use Sigmoid for binary output, Softmax for multi-class output. Avoid Sigmoid/Tanh in deep networks (vanishing gradient).</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ════════════════════════════════════════
+       UNIT 2 · SUPERVISED LEARNING
+  ═══════════════════════════════════════════ -->
+  <section class="unit" id="u2">
+    <div class="unit-header">
+      <div><div class="unit-num">UNIT 02</div></div>
+      <div>
+        <div class="unit-title">Supervised Learning</div>
+        <div class="unit-hours">⏱ 8 Hours</div>
+      </div>
+    </div>
+
+    <!-- 2.1 Model Architecture & Selection -->
+    <div class="topic">
+      <div class="topic-title">2.1 Model Architecture, Selection & Hyperparameter Tuning</div>
+      <div class="note-block">
+        <h4>Hyperparameter vs Parameter</h4>
+        <ul>
+          <li><strong>Parameters:</strong> Learned from data (weights, biases).</li>
+          <li><strong>Hyperparameters:</strong> Set before training (learning rate, depth, C in SVM, k in k-NN).</li>
+        </ul>
+        <h4>Tuning Strategies</h4>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Strategy</th><th>How it Works</th><th>Best For</th></tr>
+            <tr><td><strong>Grid Search</strong></td><td>Exhaustive search over all combinations</td><td>Few hyperparameters, small ranges</td></tr>
+            <tr><td><strong>Random Search</strong></td><td>Randomly samples combinations</td><td>Many hyperparameters</td></tr>
+            <tr><td><strong>Bayesian Optimization</strong></td><td>Uses surrogate model to guide search intelligently</td><td>Expensive evaluations, large search space</td></tr>
+          </table>
+        </div>
+        <h4>Cross-Validation</h4>
+        <p>K-Fold CV splits data into k folds, trains on k-1, validates on 1. Repeats k times, averages results.</p>
+        <div class="formula">
+CV Score = (1/k) Σᵢ Score(fold_i)
+
+Typical k = 5 or 10
+</div>
+      </div>
+    </div>
+
+    <!-- 2.2 Linear Regression -->
+    <div class="topic">
+      <div class="topic-title">2.2 Linear Regression and Regularization</div>
+      <div class="note-block">
+        <h4>Simple Linear Regression</h4>
+        <div class="formula">
+ŷ = θ₀ + θ₁x₁ + θ₂x₂ + ... + θₙxₙ  =  Xθ
+
+Minimize: L(θ) = (1/2n) Σ(yᵢ - ŷᵢ)²
+
+Normal Equation: θ = (XᵀX)⁻¹Xᵀy
+</div>
+        <h4>Regularized Variants</h4>
+        <div class="formula">
+Ridge (L2):  J(θ) = MSE + λΣθⱼ²
+Lasso (L1):  J(θ) = MSE + λΣ|θⱼ|
+Elastic Net: J(θ) = MSE + λ₁Σ|θⱼ| + λ₂Σθⱼ²
+</div>
+        <ul>
+          <li>Ridge: All features retained, coefficients shrunk. Good when all features relevant.</li>
+          <li>Lasso: Performs feature selection (coefficients become exactly 0). Good for sparse models.</li>
+        </ul>
+        <div class="callout info"><strong>When to use Normal Equation vs GD:</strong> Normal equation is O(n³) — fine for small datasets (&lt;10k features). Use Gradient Descent for large-scale data.</div>
+      </div>
+    </div>
+
+    <!-- 2.3 Classification Algorithms -->
+    <div class="topic">
+      <div class="topic-title">2.3 Classification Algorithms</div>
+      <div class="note-block">
+        <h4>Logistic Regression</h4>
+        <p>Despite its name, used for binary classification. Applies sigmoid to linear combination:</p>
+        <div class="formula">
+P(y=1|x) = σ(θᵀx) = 1 / (1 + e^(-θᵀx))
+
+Loss: Binary Cross-Entropy
+L = -(1/n) Σ [yᵢ·log(ŷᵢ) + (1-yᵢ)·log(1-ŷᵢ)]
+</div>
+
+        <h4>k-Nearest Neighbours (k-NN)</h4>
+        <ul>
+          <li>Non-parametric, lazy learner (no training phase).</li>
+          <li>Classify based on majority vote among k nearest neighbours.</li>
+          <li>Distance metrics: Euclidean, Manhattan, Cosine similarity.</li>
+          <li>Small k → low bias, high variance. Large k → high bias, low variance.</li>
+        </ul>
+
+        <h4>Support Vector Machine (SVM)</h4>
+        <p>Find the hyperplane that maximizes the margin between classes.</p>
+        <div class="formula">
+Decision boundary: wᵀx + b = 0
+Margin = 2 / ||w||
+
+Objective: Minimize ||w||²/2  subject to  yᵢ(wᵀxᵢ + b) ≥ 1
+</div>
+        <ul>
+          <li><strong>Hard margin:</strong> Linearly separable data only.</li>
+          <li><strong>Soft margin (C parameter):</strong> Allows some misclassification. High C → less regularization (overfit).</li>
+          <li><strong>Kernel trick:</strong> Maps to higher dimension for non-linear separation. Common kernels: RBF (Gaussian), Polynomial.</li>
+        </ul>
+
+        <h4>Decision Trees</h4>
+        <ul>
+          <li>Recursively splits data on features that maximize IG (Entropy-based) or minimize Gini.</li>
+          <li><strong>Pruning:</strong> Remove branches that add little value → prevents overfitting.</li>
+          <li>Max depth, min samples per split are key hyperparameters.</li>
+        </ul>
+
+        <h4>Random Forest (Ensemble: Bagging)</h4>
+        <ul>
+          <li>Builds N decision trees on random subsets of data (bootstrap sampling) and random subsets of features.</li>
+          <li>Prediction: Majority vote (classification) or mean (regression).</li>
+          <li>Reduces variance without increasing bias.</li>
+        </ul>
+
+        <h4>Gradient Boosting</h4>
+        <ul>
+          <li>Builds trees sequentially; each tree corrects errors of the previous.</li>
+          <li>Variants: <strong>XGBoost</strong> (regularized, parallel), <strong>LightGBM</strong> (leaf-wise), <strong>CatBoost</strong> (handles categoricals natively).</li>
+          <li>Loss function is minimized via gradient descent in function space.</li>
+        </ul>
+
+        <h4>Bayesian Methods (Naïve Bayes)</h4>
+        <div class="formula">
+P(y|x) = P(x|y)·P(y) / P(x)    [Bayes' Theorem]
+
+Naïve assumption: features are conditionally independent given y
+P(x₁,...,xₙ|y) = Πᵢ P(xᵢ|y)
+</div>
+      </div>
+    </div>
+
+    <!-- 2.4 Evaluation Metrics -->
+    <div class="topic">
+      <div class="topic-title">2.4 Evaluation Metrics and Their Interpretation</div>
+      <div class="note-block">
+        <h4>Confusion Matrix</h4>
+        <div class="formula">
+          Predicted +    Predicted -
+Actual +  [ TP         |  FN  ]
+Actual -  [ FP         |  TN  ]
+</div>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Metric</th><th>Formula</th><th>Interpretation</th><th>Use When</th></tr>
+            <tr><td><strong>Accuracy</strong></td><td>(TP+TN)/(TP+TN+FP+FN)</td><td>Overall correctness</td><td>Balanced classes</td></tr>
+            <tr><td><strong>Precision</strong></td><td>TP/(TP+FP)</td><td>Of predicted +ve, how many correct</td><td>Minimize False Positives (spam)</td></tr>
+            <tr><td><strong>Recall (Sensitivity)</strong></td><td>TP/(TP+FN)</td><td>Of actual +ve, how many caught</td><td>Minimize False Negatives (cancer)</td></tr>
+            <tr><td><strong>F1 Score</strong></td><td>2·(P·R)/(P+R)</td><td>Harmonic mean of P and R</td><td>Imbalanced datasets</td></tr>
+            <tr><td><strong>Cohen's Kappa</strong></td><td>(Po-Pe)/(1-Pe)</td><td>Agreement above chance</td><td>Multi-class, imbalanced</td></tr>
+            <tr><td><strong>ROC-AUC</strong></td><td>Area under ROC curve</td><td>Discrimination ability across thresholds</td><td>Binary classification</td></tr>
+            <tr><td><strong>MSE</strong></td><td>(1/n)Σ(y-ŷ)²</td><td>Penalizes large errors</td><td>Regression</td></tr>
+            <tr><td><strong>RMSE</strong></td><td>√MSE</td><td>Same unit as target</td><td>Regression</td></tr>
+            <tr><td><strong>R²</strong></td><td>1 - SS_res/SS_tot</td><td>Variance explained by model</td><td>Regression</td></tr>
+            <tr><td><strong>MAPE</strong></td><td>(1/n)Σ|y-ŷ|/|y|·100%</td><td>% error</td><td>Regression (interpretable)</td></tr>
+          </table>
+        </div>
+        <div class="callout warn"><strong>Log Loss:</strong> L = -(1/n)Σ[yᵢ·log(pᵢ) + (1-yᵢ)·log(1-pᵢ)]. Penalizes confident wrong predictions heavily. Lower is better.</div>
+      </div>
+    </div>
+
+    <!-- 2.5 Semi/Self-Supervised -->
+    <div class="topic">
+      <div class="topic-title">2.5 Semi-Supervised and Self-Supervised Learning</div>
+      <div class="note-block">
+        <ul>
+          <li><strong>Semi-Supervised:</strong> Uses small labeled + large unlabeled data. Pseudo-labeling: train on labeled, predict unlabeled, use high-confidence predictions as labels.</li>
+          <li><strong>Self-Supervised:</strong> Creates supervision from the data itself. Contrastive learning (SimCLR): learn that augmented views of same image are similar, different images are dissimilar.</li>
+          <li><strong>Autoencoders:</strong> Encoder compresses input → latent space. Decoder reconstructs. Learns compact representations unsupervised.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2.6 Responsible AI -->
+    <div class="topic">
+      <div class="topic-title">2.6 Responsible AI in Supervised Learning</div>
+      <div class="note-block">
+        <ul>
+          <li><strong>Fairness Metrics:</strong> Demographic parity (equal positive rates across groups), Equalized odds (equal TPR and FPR across groups).</li>
+          <li><strong>Interpretability:</strong> SHAP (Shapley values explain each feature's contribution), LIME (local approximation for individual predictions).</li>
+          <li><strong>Data Privacy:</strong> Avoid including PII in training data. Check for data leakage (test data leaking into training).</li>
+          <li><strong>Federated Learning:</strong> Model trained across decentralized devices without sharing raw data — only model updates are shared.</li>
+        </ul>
+        <div class="callout key"><strong>Data Leakage:</strong> When information from outside training set influences the model. Common causes: normalizing before split, using future data, leaky features. Always split first, then preprocess.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ════════════════════════════════════════
+       UNIT 3 · UNSUPERVISED LEARNING
+  ═══════════════════════════════════════════ -->
+  <section class="unit" id="u3">
+    <div class="unit-header">
+      <div><div class="unit-num">UNIT 03</div></div>
+      <div>
+        <div class="unit-title">Unsupervised Learning</div>
+        <div class="unit-hours">⏱ 7 Hours</div>
+      </div>
+    </div>
+
+    <!-- 3.1 Clustering -->
+    <div class="topic">
+      <div class="topic-title">3.1 Clustering Algorithms</div>
+      <div class="note-block">
+        <h4>K-Means Clustering</h4>
+        <p>Partitions n observations into k clusters by minimizing within-cluster sum of squares (WCSS).</p>
+        <div class="formula">
+Algorithm:
+1. Initialize k centroids randomly
+2. Assign each point to nearest centroid (Euclidean distance)
+3. Recompute centroids as mean of assigned points
+4. Repeat 2-3 until convergence
+
+WCSS = Σₖ Σᵢ∈Cₖ ||xᵢ - μₖ||²
+</div>
+        <ul>
+          <li>K must be chosen in advance. Use Elbow Method or Silhouette Score.</li>
+          <li>Sensitive to outliers and initialization. Use K-Means++ for better initialization.</li>
+        </ul>
+
+        <h4>Hierarchical Clustering</h4>
+        <ul>
+          <li><strong>Agglomerative (bottom-up):</strong> Start with each point as a cluster, merge closest pairs.</li>
+          <li><strong>Divisive (top-down):</strong> Start with one cluster, recursively split.</li>
+          <li>Result visualized as <strong>Dendrogram</strong>. Cut at height to get k clusters.</li>
+          <li>Linkage: Single (min dist), Complete (max dist), Average, Ward (minimize variance).</li>
+        </ul>
+
+        <h4>DBSCAN (Density-Based)</h4>
+        <div class="formula">
+Parameters: ε (radius), MinPts (min neighbors in radius)
+
+Core Point:    has ≥ MinPts within ε
+Border Point:  within ε of core but fewer than MinPts neighbors
+Noise Point:   neither core nor border
+</div>
+        <ul>
+          <li>Can find arbitrarily shaped clusters.</li>
+          <li>Automatically identifies outliers as noise.</li>
+          <li>No need to specify k in advance.</li>
+        </ul>
+
+        <h4>Gaussian Mixture Models (GMM)</h4>
+        <ul>
+          <li>Probabilistic model: data is generated from mixture of k Gaussian distributions.</li>
+          <li>Uses EM (Expectation-Maximization) algorithm to fit.</li>
+          <li>Soft assignments (probability of belonging to each cluster).</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 3.2 Clustering Evaluation -->
+    <div class="topic">
+      <div class="topic-title">3.2 Clustering Evaluation Metrics</div>
+      <div class="note-block">
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Metric</th><th>Formula / Idea</th><th>Range</th><th>Better</th></tr>
+            <tr><td><strong>Silhouette Score</strong></td><td>s = (b-a)/max(a,b). a=intra-cluster dist, b=nearest-cluster dist</td><td>[-1, 1]</td><td>Close to 1</td></tr>
+            <tr><td><strong>Davies-Bouldin Index (DBI)</strong></td><td>Avg ratio of within-cluster scatter to between-cluster separation</td><td>[0, ∞)</td><td>Lower</td></tr>
+            <tr><td><strong>Calinski-Harabasz Index</strong></td><td>Ratio of between-cluster to within-cluster dispersion</td><td>[0, ∞)</td><td>Higher</td></tr>
+            <tr><td><strong>ARI (Adjusted Rand Index)</strong></td><td>Corrected-for-chance version of Rand Index. Needs ground truth.</td><td>[-1, 1]</td><td>Close to 1</td></tr>
+            <tr><td><strong>Elbow Method</strong></td><td>Plot WCSS vs k, find "elbow" point</td><td>—</td><td>Elbow k</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3.3 Dimensionality Reduction -->
+    <div class="topic">
+      <div class="topic-title">3.3 Dimensionality Reduction</div>
+      <div class="note-block">
+        <h4>Principal Component Analysis (PCA)</h4>
+        <p>Linear technique. Projects data onto directions of maximum variance (principal components).</p>
+        <div class="formula">
+Steps:
+1. Standardize data (zero mean, unit variance)
+2. Compute covariance matrix: C = (1/n) XᵀX
+3. Compute eigenvectors and eigenvalues of C
+4. Sort eigenvectors by eigenvalue (descending)
+5. Project data: Z = X · W  (W = top-k eigenvectors)
+
+Reconstruction Error = ||X - X̂||²  (X̂ = reconstructed from k components)
+Explained Variance Ratio = λᵢ / Σλⱼ
+</div>
+        <ul>
+          <li>Choose k components explaining 95% cumulative variance.</li>
+          <li>Assumes linear relationships. Fails for non-linear data.</li>
+        </ul>
+
+        <h4>t-SNE (t-Distributed Stochastic Neighbour Embedding)</h4>
+        <ul>
+          <li>Non-linear dimensionality reduction. Primarily for visualization (2D/3D).</li>
+          <li>Preserves local structure: nearby points in high-D stay nearby in low-D.</li>
+          <li>Perplexity hyperparameter controls local vs global structure (typical: 5–50).</li>
+          <li><strong>Cannot be used for new data</strong> — must rerun on the entire dataset.</li>
+        </ul>
+        <div class="callout warn"><strong>PCA vs t-SNE:</strong> PCA is linear, fast, interpretable, works for compression. t-SNE is non-linear, slow, only for visualization, not for downstream ML.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ════════════════════════════════════════
+       UNIT 4 · NEURAL NETWORKS
+  ═══════════════════════════════════════════ -->
+  <section class="unit" id="u4">
+    <div class="unit-header">
+      <div><div class="unit-num">UNIT 04</div></div>
+      <div>
+        <div class="unit-title">Neural Networks</div>
+        <div class="unit-hours">⏱ 6 Hours</div>
+      </div>
+    </div>
+
+    <!-- 4.1 Perceptron -->
+    <div class="topic">
+      <div class="topic-title">4.1 Perceptron and Basic Terminology</div>
+      <div class="note-block">
+        <div class="formula">
+Single Neuron:  z = wᵀx + b
+                ŷ = activation(z)
+
+Perceptron update rule:
+w = w + α(y - ŷ)x
+b = b + α(y - ŷ)
+</div>
+        <h4>Network Layers</h4>
+        <ul>
+          <li><strong>Input Layer:</strong> Receives raw features (no computation).</li>
+          <li><strong>Hidden Layers:</strong> Intermediate transformations. More layers = more capacity.</li>
+          <li><strong>Output Layer:</strong> Final prediction (Sigmoid for binary, Softmax for multi-class, Linear for regression).</li>
+          <li><strong>Width:</strong> Number of neurons per layer. <strong>Depth:</strong> Number of layers.</li>
+        </ul>
+        <h4>Trainable Parameters</h4>
+        <div class="formula">
+For a layer with nᵢₙ inputs and nₒᵤₜ outputs:
+  Weights: nᵢₙ × nₒᵤₜ
+  Biases:  nₒᵤₜ
+  Total:   nᵢₙ × nₒᵤₜ + nₒᵤₜ
+
+Example: 784→128→64→10 network:
+  Layer 1: 784×128 + 128 = 100,480 params
+  Layer 2: 128×64  + 64  =   8,256 params
+  Layer 3: 64×10   + 10  =     650 params
+  Total:                  = 109,386 params
+</div>
+      </div>
+    </div>
+
+    <!-- 4.2 Backpropagation -->
+    <div class="topic">
+      <div class="topic-title">4.2 Backpropagation: Chain Rule and Gradient Computation</div>
+      <div class="note-block">
+        <h4>Chain Rule</h4>
+        <p>Backpropagation applies the chain rule to compute gradients of the loss w.r.t. every weight in the network.</p>
+        <div class="formula">
+For a 2-layer network: x → z₁=W₁x+b₁ → a₁=σ(z₁) → z₂=W₂a₁+b₂ → ŷ=σ(z₂) → L
+
+∂L/∂W₂ = ∂L/∂ŷ · ∂ŷ/∂z₂ · ∂z₂/∂W₂
+∂L/∂W₁ = ∂L/∂ŷ · ∂ŷ/∂z₂ · ∂z₂/∂a₁ · ∂a₁/∂z₁ · ∂z₁/∂W₁
+
+δ² = ∂L/∂z₂  (output error signal)
+δ¹ = (W₂ᵀδ²) ⊙ σ'(z₁)  (propagated error)
+
+∂L/∂W² = δ²·a₁ᵀ
+∂L/∂W¹ = δ¹·xᵀ
+</div>
+        <div class="callout key"><strong>Sigmoid Derivative:</strong> σ'(x) = σ(x)·(1-σ(x)) — always between 0 and 0.25. This small value causes the vanishing gradient problem in deep networks.</div>
+      </div>
+    </div>
+
+    <!-- 4.3 Training Optimization -->
+    <div class="topic">
+      <div class="topic-title">4.3 Training Optimization</div>
+      <div class="note-block">
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Optimizer</th><th>Update Rule</th><th>Key Advantage</th></tr>
+            <tr><td><strong>SGD</strong></td><td>θ = θ - α·∇L</td><td>Simple, good generalization</td></tr>
+            <tr><td><strong>Momentum</strong></td><td>v = βv - α·∇L; θ = θ + v</td><td>Accelerates in consistent direction, dampens oscillation</td></tr>
+            <tr><td><strong>Adam</strong></td><td>Adaptive learning rate per parameter using 1st &amp; 2nd moment estimates</td><td>Works well out-of-the-box, fast convergence</td></tr>
+          </table>
+        </div>
+        <div class="formula">
+Adam Update:
+m = β₁m + (1-β₁)∇L       [1st moment — mean]
+v = β₂v + (1-β₂)(∇L)²    [2nd moment — variance]
+m̂ = m/(1-β₁ᵗ)            [bias-corrected]
+v̂ = v/(1-β₂ᵗ)
+θ = θ - α·m̂/(√v̂ + ε)
+
+Default: β₁=0.9, β₂=0.999, ε=1e-8
+</div>
+      </div>
+    </div>
+
+    <!-- 4.4 Regularization -->
+    <div class="topic">
+      <div class="topic-title">4.4 Regularization Techniques</div>
+      <div class="note-block">
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Technique</th><th>How It Works</th><th>Effect</th></tr>
+            <tr><td><strong>Dropout</strong></td><td>Randomly zero out neurons with probability p during training</td><td>Prevents co-adaptation, acts as ensemble of networks</td></tr>
+            <tr><td><strong>Batch Normalization</strong></td><td>Normalize layer inputs to zero mean, unit variance per batch</td><td>Faster training, higher learning rates, slight regularization</td></tr>
+            <tr><td><strong>Early Stopping</strong></td><td>Stop training when validation loss stops decreasing</td><td>Prevents overfitting, saves compute</td></tr>
+            <tr><td><strong>L1/L2 Weight Decay</strong></td><td>Add penalty on weights to loss</td><td>Shrinks weights, reduces overfitting</td></tr>
+          </table>
+        </div>
+        <div class="callout info"><strong>Batch Norm formula:</strong> x̂ = (x - μ_B)/√(σ²_B + ε); y = γx̂ + β where γ, β are learnable scale and shift parameters.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ════════════════════════════════════════
+       UNIT 5 · DEEP LEARNING FOUNDATION
+  ═══════════════════════════════════════════ -->
+  <section class="unit" id="u5">
+    <div class="unit-header">
+      <div><div class="unit-num">UNIT 05</div></div>
+      <div>
+        <div class="unit-title">Deep Learning Foundation</div>
+        <div class="unit-hours">⏱ 6 Hours</div>
+      </div>
+    </div>
+
+    <!-- 5.1 DL vs ML -->
+    <div class="topic">
+      <div class="topic-title">5.1 Deep Learning vs Machine Learning</div>
+      <div class="note-block">
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Aspect</th><th>Machine Learning</th><th>Deep Learning</th></tr>
+            <tr><td>Feature Engineering</td><td>Manual feature extraction required</td><td>Automatic feature learning</td></tr>
+            <tr><td>Data Requirements</td><td>Works with small data</td><td>Needs large data to shine</td></tr>
+            <tr><td>Interpretability</td><td>Higher (Decision Trees, LR)</td><td>Black box</td></tr>
+            <tr><td>Compute</td><td>CPU sufficient</td><td>Needs GPU/TPU</td></tr>
+            <tr><td>Performance</td><td>Good for structured data</td><td>SOTA on images, text, audio</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5.2 CNN -->
+    <div class="topic">
+      <div class="topic-title">5.2 Convolutional Neural Networks (CNN)</div>
+      <div class="note-block">
+        <h4>Convolution Operation</h4>
+        <div class="formula">
+Output feature map: (F * K)[i,j] = Σₘ Σₙ F[i+m, j+n] · K[m,n]
+
+Output size: ((W - K + 2P) / S) + 1
+  W = input width, K = kernel size, P = padding, S = stride
+
+Parameters in conv layer: K × K × C_in × C_out + C_out (biases)
+</div>
+        <h4>Pooling</h4>
+        <ul>
+          <li><strong>Max Pooling:</strong> Takes maximum value in each window. Preserves dominant features.</li>
+          <li><strong>Average Pooling:</strong> Takes average. Smoother representation.</li>
+          <li>Reduces spatial dimensions, provides translation invariance.</li>
+        </ul>
+        <h4>Typical CNN Architecture</h4>
+        <div class="formula">
+Input → [Conv → BN → ReLU → Pool] × N → Flatten → FC → Output
+</div>
+      </div>
+    </div>
+
+    <!-- 5.3 Transfer Learning -->
+    <div class="topic">
+      <div class="topic-title">5.3 Transfer Learning</div>
+      <div class="note-block">
+        <p>Use a pre-trained model (trained on large dataset like ImageNet) and adapt it to a new, smaller dataset.</p>
+        <h4>Strategies</h4>
+        <ul>
+          <li><strong>Feature Extraction:</strong> Freeze all pre-trained layers. Only train new classifier head. Use when small dataset and similar domain.</li>
+          <li><strong>Fine-Tuning:</strong> Unfreeze some/all layers and continue training with smaller learning rate. Use when larger dataset or different domain.</li>
+        </ul>
+        <h4>Popular Pre-trained Models</h4>
+        <ul>
+          <li><strong>VGG16/VGG19:</strong> Simple deep conv nets. Good baseline.</li>
+          <li><strong>ResNet:</strong> Residual connections (skip connections) solve vanishing gradient. ResNet50, ResNet152.</li>
+          <li><strong>InceptionV3:</strong> Parallel convolutions at different scales.</li>
+          <li><strong>EfficientNet:</strong> Scales width, depth, resolution uniformly.</li>
+        </ul>
+        <div class="callout tip"><strong>Why Transfer Learning Works:</strong> Early CNN layers learn universal features (edges, textures). Later layers learn task-specific features. We reuse the general features and retrain the task-specific ones.</div>
+      </div>
+    </div>
+
+    <!-- 5.4 Sequence Models -->
+    <div class="topic">
+      <div class="topic-title">5.4 Sequence Models: RNN, LSTM, GRU</div>
+      <div class="note-block">
+        <h4>Recurrent Neural Network (RNN)</h4>
+        <div class="formula">
+hₜ = tanh(Wₕhₜ₋₁ + Wₓxₜ + b)
+ŷₜ = Wᵧhₜ
+
+h₀ = zeros  (initial hidden state)
+</div>
+        <ul>
+          <li>Processes sequences step by step, maintaining hidden state.</li>
+          <li><strong>Problem:</strong> Vanishing/exploding gradient for long sequences.</li>
+        </ul>
+
+        <h4>Long Short-Term Memory (LSTM)</h4>
+        <p>Introduces gating mechanism to control information flow over long sequences.</p>
+        <div class="formula">
+fₜ = σ(Wf·[hₜ₋₁, xₜ] + bf)   [Forget Gate — what to discard from cell state]
+iₜ = σ(Wi·[hₜ₋₁, xₜ] + bi)   [Input Gate  — what new info to store]
+C̃ₜ = tanh(Wc·[hₜ₋₁, xₜ] + bc) [Candidate cell state]
+Cₜ = fₜ⊙Cₜ₋₁ + iₜ⊙C̃ₜ         [Cell state update]
+oₜ = σ(Wo·[hₜ₋₁, xₜ] + bo)   [Output Gate]
+hₜ = oₜ⊙tanh(Cₜ)              [Hidden state]
+</div>
+        <h4>GRU (Gated Recurrent Unit)</h4>
+        <ul>
+          <li>Simplified LSTM with 2 gates (reset and update) instead of 3.</li>
+          <li>Fewer parameters, faster to train. Similar performance to LSTM.</li>
+        </ul>
+        <h4>Deep Learning Evaluation Metrics</h4>
+        <ul>
+          <li><strong>AUC-ROC:</strong> Area under Receiver Operating Curve. Threshold-independent.</li>
+          <li><strong>Top-K Accuracy:</strong> Is true label in top K predictions? (used in ImageNet).</li>
+          <li><strong>Learning Curves:</strong> Training vs validation loss over epochs — diagnose over/underfitting.</li>
+          <li><strong>Convergence Rate:</strong> How fast loss decreases per epoch.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ════════════════════════════════════════
+       UNIT 6 · REINFORCEMENT LEARNING
+  ═══════════════════════════════════════════ -->
+  <section class="unit" id="u6">
+    <div class="unit-header">
+      <div><div class="unit-num">UNIT 06</div></div>
+      <div>
+        <div class="unit-title">Reinforcement Learning Fundamentals</div>
+        <div class="unit-hours">⏱ 5 Hours</div>
+      </div>
+    </div>
+
+    <!-- 6.1 Introduction -->
+    <div class="topic">
+      <div class="topic-title">6.1 Introduction: Agent, Environment, Reward</div>
+      <div class="note-block">
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Component</th><th>Description</th><th>Example (Game)</th></tr>
+            <tr><td><strong>Agent</strong></td><td>The learner/decision maker</td><td>The player</td></tr>
+            <tr><td><strong>Environment</strong></td><td>What the agent interacts with</td><td>The game world</td></tr>
+            <tr><td><strong>State (s)</strong></td><td>Current situation/observation</td><td>Screen pixels / game state</td></tr>
+            <tr><td><strong>Action (a)</strong></td><td>Choice made by agent</td><td>Left, Right, Jump, Fire</td></tr>
+            <tr><td><strong>Reward (r)</strong></td><td>Feedback signal</td><td>+1 for kill, -1 for death</td></tr>
+            <tr><td><strong>Policy (π)</strong></td><td>Mapping from state to action</td><td>Strategy the agent follows</td></tr>
+            <tr><td><strong>Value (V)</strong></td><td>Expected future reward from state</td><td>How good is this position?</td></tr>
+          </table>
+        </div>
+        <div class="formula">
+RL Loop:
+State sₜ → Agent → Action aₜ → Environment → Reward rₜ, New State sₜ₊₁ → repeat
+
+Goal: Maximize cumulative discounted reward: G = Σₜ γᵗrₜ   (γ = discount factor ∈ [0,1])
+</div>
+        <div class="callout info"><strong>Discount Factor γ:</strong> γ=0 → agent is myopic (only cares about immediate reward). γ=1 → agent values future rewards equally. Typical γ = 0.9 to 0.99.</div>
+      </div>
+    </div>
+
+    <!-- 6.2 MDP -->
+    <div class="topic">
+      <div class="topic-title">6.2 Markov Decision Process (MDP)</div>
+      <div class="note-block">
+        <p>An MDP is defined by the tuple (S, A, P, R, γ) where:</p>
+        <ul>
+          <li><strong>S:</strong> Set of states</li>
+          <li><strong>A:</strong> Set of actions</li>
+          <li><strong>P(s'|s,a):</strong> Transition probability — probability of reaching s' from s by taking action a</li>
+          <li><strong>R(s,a):</strong> Reward function</li>
+          <li><strong>γ:</strong> Discount factor</li>
+        </ul>
+        <h4>Markov Property</h4>
+        <p>The future depends only on the current state, not on the history:</p>
+        <div class="formula">P(sₜ₊₁|sₜ, aₜ, sₜ₋₁, ...) = P(sₜ₊₁|sₜ, aₜ)</div>
+        <h4>Bellman Equation</h4>
+        <div class="formula">
+State Value Function:
+V(s) = max_a [R(s,a) + γ Σs' P(s'|s,a) V(s')]
+
+Action Value Function (Q-function):
+Q(s,a) = R(s,a) + γ Σs' P(s'|s,a) max_a' Q(s',a')
+
+Optimal policy: π*(s) = argmax_a Q(s,a)
+</div>
+      </div>
+    </div>
+
+    <!-- 6.3 Q-Learning -->
+    <div class="topic">
+      <div class="topic-title">6.3 Q-Learning</div>
+      <div class="note-block">
+        <p>Model-free RL algorithm. Learns Q(s,a) values directly from experience without knowing the environment model.</p>
+        <h4>Q-Update Rule (derived from Bellman)</h4>
+        <div class="formula">
+Q(s,a) ← Q(s,a) + α[r + γ·max_a' Q(s',a') − Q(s,a)]
+
+where:
+  α       = learning rate
+  r       = reward received
+  s'      = next state
+  γ·max Q = discounted future value (TD target)
+  [...]   = TD error (Temporal Difference error)
+</div>
+        <h4>Exploration vs Exploitation (ε-Greedy)</h4>
+        <ul>
+          <li><strong>Exploitation:</strong> Choose action with max Q(s,a) — use current knowledge.</li>
+          <li><strong>Exploration:</strong> Choose random action — discover new strategies.</li>
+          <li><strong>ε-Greedy:</strong> With probability ε → explore; with (1-ε) → exploit.</li>
+          <li>ε typically decays over time (start high, end low).</li>
+        </ul>
+        <div class="callout tip"><strong>Deep Q-Network (DQN):</strong> Uses neural network to approximate Q(s,a) for large/continuous state spaces. Used by DeepMind to play Atari games.</div>
+        <h4>RL Evaluation Metrics</h4>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Metric</th><th>What it measures</th></tr>
+            <tr><td><strong>Cumulative Reward</strong></td><td>Total reward per episode — primary measure of performance</td></tr>
+            <tr><td><strong>Average Episode Reward</strong></td><td>Mean reward over many episodes — smoothed performance</td></tr>
+            <tr><td><strong>Episode Length</strong></td><td>How long agent survives/plays per episode</td></tr>
+            <tr><td><strong>Policy Loss</strong></td><td>How much the policy changes between updates (stability)</td></tr>
+            <tr><td><strong>Value Loss</strong></td><td>How accurately V(s) or Q(s,a) is estimated</td></tr>
+            <tr><td><strong>Regret</strong></td><td>Difference between cumulative reward of optimal policy and agent</td></tr>
+            <tr><td><strong>Success Rate</strong></td><td>% episodes where agent achieves the goal</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK REFERENCE -->
+  <section class="unit" id="quickref" style="margin-top:56px;">
+    <div class="unit-header">
+      <div><div class="unit-num" style="background:var(--amber);color:#000;">REF</div></div>
+      <div>
+        <div class="unit-title">Quick Reference: Formulas &amp; Key Points</div>
+        <div class="unit-hours">📌 Exam Revision</div>
+      </div>
+    </div>
+    <div class="topic">
+      <div class="topic-title">All Important Formulas at a Glance</div>
+      <div class="formula">
+── UNIT 1 ──
+Gradient Descent:     θ = θ - α·∂L/∂θ
+MSE Loss:             L = (1/n)Σ(y-ŷ)²
+Binary Cross-Entropy: L = -[y·log(ŷ) + (1-y)·log(1-ŷ)]
+Entropy:              H(S) = -Σpᵢ·log₂(pᵢ)
+Info Gain:            IG(S,A) = H(S) - Σ(|Sᵥ|/|S|)H(Sᵥ)
+Bias-Variance:        Error = Bias² + Variance + Noise
+Ridge:                J = MSE + λΣθⱼ²
+Lasso:                J = MSE + λΣ|θⱼ|
+
+── UNIT 2 ──
+Normal Equation:      θ = (XᵀX)⁻¹Xᵀy
+Logistic:             P(y=1|x) = 1/(1+e^(-θᵀx))
+SVM Margin:           2/||w||, minimize ||w||²/2
+Precision:            TP/(TP+FP)
+Recall:               TP/(TP+FN)
+F1:                   2PR/(P+R)
+R²:                   1 - SS_res/SS_tot
+
+── UNIT 3 ──
+Silhouette:           s = (b-a)/max(a,b)
+PCA projection:       Z = X·W  (W = top eigenvectors)
+WCSS:                 Σₖ Σᵢ∈Cₖ ||xᵢ - μₖ||²
+
+── UNIT 4 ──
+Backprop δ:           δᴸ = ∂L/∂ŷ ⊙ σ'(zᴸ)
+Weight gradient:      ∂L/∂Wᴸ = δᴸ·(aᴸ⁻¹)ᵀ
+BatchNorm:            x̂ = (x-μ)/√(σ²+ε); y = γx̂+β
+Adam:                 θ = θ - α·m̂/(√v̂+ε)
+
+── UNIT 5 ──
+Conv output size:     ((W-K+2P)/S) + 1
+LSTM forget gate:     fₜ = σ(Wf·[hₜ₋₁,xₜ]+bf)
+
+── UNIT 6 ──
+Cumulative reward:    G = Σₜ γᵗrₜ
+Q-update:             Q(s,a) ← Q(s,a)+α[r+γ·maxQ(s',a')-Q(s,a)]
+Bellman:              V(s) = maxₐ[R(s,a)+γΣs'P(s'|s,a)V(s')]
+</div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <span>param_shah.exe</span> · CSUC301 Machine Learning · Semester 5 · CHARUSAT CSPIT · 2026-27<br>
+  <span style="color:var(--muted);margin-top:4px;display:block;">Next: Big Data Analytics (CSUE301) →</span>
+</footer>
+
+</body>
+</html>
